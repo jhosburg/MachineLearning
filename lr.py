@@ -10,15 +10,27 @@ import matplotlib.pyplot as plt
 url = 'lungcancer.csv'  # Replace 'your_dataset.csv' with the actual path or URL of your CSV file
 df = pd.read_csv(url)
 
+# Cleaning the data
+# Assuming there might be missing values, let's handle them by dropping rows with missing values
+df = df.dropna()
+
 # Map 'YES' to 2 and 'NO' to 1
 df['LUNG_CANCER'] = df['LUNG_CANCER'].map({'YES': 2, 'NO': 1})
 
+# Assuming there might be categorical variables that need to be encoded
+# If 'GENDER' is a categorical variable, you might want to encode it
+# For example, using one-hot encoding:
+df = pd.get_dummies(df, columns=['GENDER'], drop_first=True)
+
+df['AGE'] = (df['AGE'] - df['AGE'].min()) / (df['AGE'].max() - df['AGE'].min())
+
+
 # Select features (independent variables) and target variable
-X = df.drop(['GENDER', 'LUNG_CANCER'], axis=1)  # Exclude non-numeric and target variables
+X = df.drop(['LUNG_CANCER'], axis=1)  # Exclude the target variable
 y = df['LUNG_CANCER']
 
 # Split the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 # Initialize the logistic regression model
 model = LogisticRegression()
