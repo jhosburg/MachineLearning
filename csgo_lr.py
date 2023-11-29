@@ -37,15 +37,3 @@ plt.title('Confusion Matrix for Logistic Regression')
 plt.xlabel('Predicted Label')
 plt.ylabel('True Label')
 plt.show()
-
-# Group by map and round winner, then count the occurrences
-map_win_counts = df.groupby(['map', 'round_winner']).size().unstack().fillna(0)
-
-# Plot the bar graph
-sns.set(style="whitegrid")
-map_win_counts.plot(kind='bar', stacked=True, figsize=(10, 6))
-plt.title('Map Wins for CT and T Side')
-plt.xlabel('Map')
-plt.ylabel('Number of Wins')
-plt.legend(title='Round Winner', loc='upper right', bbox_to_anchor=(1.25, 1))
-plt.show()
